@@ -1,5 +1,7 @@
 # Retinova AI — See Beyond the Retina
 
+🚀 https://retinova-ai-seven.vercel.app/
+
 <div align="center">
   <img src="frontend/public/retinova-logo.png" width="180" alt="Retinova AI Logo" style="border-radius: 24px; box-shadow: 0 0 30px rgba(99,102,241,0.4);" />
   <h3><strong>Retinova AI</strong></h3>
