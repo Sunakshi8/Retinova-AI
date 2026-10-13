@@ -7,9 +7,19 @@ echo ========================================================
 echo.
 
 cd /d "%~dp0backend"
-echo [1/2] Installing backend requirements (if needed)...
-pip install -r ..\requirements.txt --quiet
+
+set PYTHON_EXEC=python
+where py >nul 2>nul
+if %ERRORLEVEL% equ 0 (
+    py -3.12 -c "import sys; exit(0)" >nul 2>nul
+    if %ERRORLEVEL% equ 0 (
+        set PYTHON_EXEC=py -3.12
+    )
+)
+
+echo [1/2] Checking backend requirements with %PYTHON_EXEC%...
+%PYTHON_EXEC% -m pip install -r ..\requirements.txt --quiet
 
 echo [2/2] Starting FastAPI backend on http://127.0.0.1:8000 ...
-python main.py
+%PYTHON_EXEC% main.py
 pause

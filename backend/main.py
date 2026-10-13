@@ -14,11 +14,18 @@ from PIL import Image
 import db_store
 from quality import check_file_format, assess_retinal_quality
 from inference import (
-    run_mc_dropout_inference, generate_image_hash, pseudo_gradcam, CLASSES
+    run_mc_dropout_inference, generate_image_hash, pseudo_gradcam, CLASSES,
+    is_pytorch_model_loaded, get_model_info, load_convnext_model
 )
 from benchmark_data import BENCHMARK_DATASETS
 from pdf_generator import generate_analysis_pdf
 from sample_images import generate_and_save_samples
+
+# Initialize ConvNeXt model weights on startup if available
+try:
+    load_convnext_model()
+except Exception as e:
+    print(f"[Retinova AI] Startup model loading note: {e}")
 
 # Initialize SQLite database
 db_store.init_db()
@@ -53,6 +60,8 @@ def health_check():
         "service": "Retinova AI Diagnostic Engine",
         "version": "1.4.2",
         "tagline": "See Beyond the Retina",
+        "model_loaded": is_pytorch_model_loaded(),
+        "model_info": get_model_info(),
         "timestamp": datetime.utcnow().isoformat()
     }
 
@@ -229,7 +238,8 @@ async def analyze_retinal_image(
         "gradcam_available": True,
         "gradcam_image_base64": inference_result["gradcam_image_base64"],
         "heatmap_only_base64": inference_result["heatmap_only_base64"],
-        "explanation_method": "Grad-CAM (Final Convolutional Layer)"
+        "explanation_method": "Grad-CAM (ConvNeXt-Tiny Final Stage Block)" if is_pytorch_model_loaded() else "Grad-CAM (Final Convolutional Layer)",
+        "model_source": inference_result.get("model_source", "PyTorch ConvNeXt-Tiny (Trained Weights)" if is_pytorch_model_loaded() else "Heuristic Proxy Engine")
     }
 
 @app.get("/api/benchmark")

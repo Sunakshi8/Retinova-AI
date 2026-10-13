@@ -67,11 +67,12 @@ export const ModelTransparency: React.FC = () => {
               inverted bottleneck ratios, GELU activations, and fewer normalization layers to mirror Vision Transformer receptive fields without quadratic attention overhead.
             </p>
             <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800 space-y-1 font-mono text-[11px]">
-              <div>• Input Resolution: 384 x 384 x 3</div>
-              <div>• Computational Cost: 4.5 GFLOPs</div>
-              <div>• Mean Inference Latency: 38.4 ms (TensorRT FP16)</div>
-              <div>• Pretrained Weights: ImageNet-1K fine-tuned on EyePACS</div>
-              <div>• Saliency Target: `model.stages[3].blocks[2]`</div>
+              <div className="text-emerald-400 font-semibold">• Active Checkpoint: backend/models/dr_convnext_tiny_weights.pth</div>
+              <div>• Training Source: Kaggle Balanced Fine-Tuned IDRiD + DDR External</div>
+              <div>• Input Resolution: 224 x 224 x 3 (Bilinear + ImageNet Normalization)</div>
+              <div>• Calibration: Temperature Scaling (T = 1.306)</div>
+              <div>• Head: 5-Class Linear Classifier (ICDR 0 to 4)</div>
+              <div>• Saliency Target: `model.features[7]` (Final Stage Grad-CAM)</div>
             </div>
           </div>
         </div>

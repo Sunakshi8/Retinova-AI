@@ -31,6 +31,7 @@ export interface PredictionResult {
   gradcam_image_base64: string | null;
   heatmap_only_base64: string | null;
   explanation_method: string;
+  model_source?: string;
 }
 
 export interface SampleImage {

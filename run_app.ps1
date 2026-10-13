@@ -8,7 +8,7 @@ $CurrentDir = $PSScriptRoot
 if (-not $CurrentDir) { $CurrentDir = Get-Location }
 
 Write-Host "[1/3] Launching Python FastAPI Backend Server on Port 8000..." -ForegroundColor Yellow
-Start-Process cmd -ArgumentList "/k", "cd /d `"$CurrentDir\backend`" && python main.py"
+Start-Process cmd -ArgumentList "/k", "`"$CurrentDir\run_backend.bat`""
 
 Write-Host "[2/3] Waiting 3 seconds for backend initialization..." -ForegroundColor Gray
 Start-Sleep -Seconds 3

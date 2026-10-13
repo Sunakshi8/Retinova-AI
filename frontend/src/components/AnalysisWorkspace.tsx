@@ -185,27 +185,34 @@ export const AnalysisWorkspace: React.FC<AnalysisWorkspaceProps> = ({
 
         {/* Global Controls: Architecture Selector */}
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900 border border-slate-800">
-            <button
-              onClick={() => setModelName('convnext_tiny')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                modelName === 'convnext_tiny'
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              ConvNeXt-Tiny (384px)
-            </button>
-            <button
-              onClick={() => setModelName('efficientnet_b3')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                modelName === 'efficientnet_b3'
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              EfficientNet-B3 (300px)
-            </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900 border border-slate-800">
+              <button
+                onClick={() => setModelName('convnext_tiny')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  modelName === 'convnext_tiny'
+                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                ConvNeXt-Tiny (224px)
+              </button>
+              <button
+                onClick={() => setModelName('efficientnet_b3')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  modelName === 'efficientnet_b3'
+                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                EfficientNet-B3 (300px)
+              </button>
+            </div>
+
+            <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-[11px] font-mono shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Kaggle Weights Active: dr_convnext_tiny_weights.pth</span>
+            </div>
           </div>
 
           <button
@@ -528,6 +535,17 @@ export const AnalysisWorkspace: React.FC<AnalysisWorkspaceProps> = ({
                     )}
                   </div>
                 </div>
+                {result && result.predicted_grade >= 0 && (
+                  <div className="flex flex-wrap items-center gap-2 mt-2">
+                    <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-cyan-950/70 text-cyan-300 border border-cyan-800/50 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                      Model: {result.model_source || 'PyTorch ConvNeXt-Tiny (dr_convnext_tiny_weights.pth)'}
+                    </span>
+                    <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-purple-950/70 text-purple-300 border border-purple-800/50">
+                      Saliency: {result.explanation_method}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Selective Prediction Acceptance Badge */}
